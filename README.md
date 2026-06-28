@@ -34,4 +34,4 @@ python auditor.py path/to/your/file.py
 ## Example Output
 Curious about what the analysis looks like? We ran the auditor against a deliberately vulnerable file (`vulnerable_test.py`). 
 
-👉 **[View Example Audit Report](EXAMPLE_OUTPUT.md)**
+👉 **[View Example Audit Report (https://github.com/mmufeez51/AI_Code_Auditor/blob/main/EXAMPLE_OUTPUT.md)](https://github.com/mmufeez51/AI_Code_Auditor/blob/main/EXAMPLE_OUTPUT.md)**

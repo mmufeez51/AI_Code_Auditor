@@ -1,25 +1,25 @@
-# AI Code Auditor - Example Output
+# Example Output
 
-Here is an example of what the AI Code Auditor outputs when analyzing the `vulnerable_test.py` file included in this repository.
+Running the auditor against `vulnerable_test.py`:
 
-```text
-Analyzing 'vulnerable_test.py'...
+```bash
+$ python auditor.py vulnerable_test.py
+INFO: Analyzing vulnerable_test.py...
 
 ======================================== AUDIT REPORT ========================================
 
 **Summary**
-This code contains several critical security vulnerabilities that must be addressed immediately. It includes hardcoded secrets, a severe SQL injection vulnerability, and an arbitrary code execution vulnerability.
+This code contains critical security vulnerabilities, including hardcoded secrets, SQL injection, and arbitrary code execution.
 
 **Findings**
-*   **[High] Hardcoded API Key**: Line 5 contains a hardcoded API key (`AIzaSyFakeKey1234567890`). Hardcoding secrets in source code is a major security risk as they can be easily extracted or leaked via version control.
-*   **[High] SQL Injection (SQLi)**: Line 12 constructs a SQL query using string formatting (`f"SELECT * FROM users WHERE username = '{username}'"`). This allows an attacker to inject arbitrary SQL commands by manipulating the `username` parameter.
-*   **[High] Remote Code Execution (RCE) via `eval()`**: Line 19 uses the `eval()` function on untrusted user input (`data_string`). This allows an attacker to execute arbitrary Python code on the server.
+*   **[High] Hardcoded API Key**: Line 5 contains a hardcoded API key (`AIzaSyFakeKey1234567890`). 
+*   **[High] SQL Injection**: Line 12 constructs a SQL query using string formatting. 
+*   **[High] Remote Code Execution**: Line 19 uses `eval()` on untrusted input.
 
 **Recommendations**
-*   **Remove Hardcoded Secrets**: Move the API key to an environment variable or a secure secrets management system. Use `os.environ.get('API_KEY')` to access it.
-*   **Use Parameterized Queries**: Replace the string formatting in the SQL query with parameterized queries provided by `sqlite3`. 
-    *   *Fix*: `cursor.execute("SELECT * FROM users WHERE username = ?", (username,))`
-*   **Avoid `eval()`**: Never use `eval()` on untrusted input. If you need to parse structured data, use safe alternatives like `json.loads()` for JSON or `ast.literal_eval()` if parsing Python literals is strictly necessary.
+*   **Secrets Management**: Move the API key to environment variables (`os.environ.get('API_KEY')`).
+*   **Parameterized Queries**: Use parameterized queries (`cursor.execute("SELECT * FROM users WHERE username = ?", (username,))`).
+*   **Avoid eval()**: Replace `eval()` with `json.loads()` or `ast.literal_eval()`.
 
 ==============================================================================================
 ```

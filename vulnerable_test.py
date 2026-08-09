@@ -1,19 +1,24 @@
 import sqlite3
+import os
+import ast
 
 def get_user_data(username):
-    # Hardcoded sensitive data (Bad Practice)
-    api_key = "AIzaSyFakeKey1234567890"
+    # Use environment variables for sensitive data instead of hardcoding
+    api_key = os.environ.get("API_KEY")
     
-    # Insecure SQL connection (No password, local file)
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-    
-    # SQL Injection Vulnerability (String formatting instead of parameterized query)
-    query = f"SELECT * FROM users WHERE username = '{username}'"
-    cursor.execute(query)
-    
-    return cursor.fetchall()
+    # Use a context manager to ensure the database connection is closed properly
+    with sqlite3.connect('users.db') as conn:
+        cursor = conn.cursor()
+        
+        # Use parameterized queries to prevent SQL Injection
+        query = "SELECT * FROM users WHERE username = ?"
+        cursor.execute(query, (username,))
+        
+        return cursor.fetchall()
 
 def process_data(data_string):
-    # Remote Code Execution (RCE) / Eval vulnerability
-    return eval(data_string)
+    # Use ast.literal_eval instead of eval to prevent Remote Code Execution (RCE)
+    try:
+        return ast.literal_eval(data_string)
+    except (ValueError, SyntaxError):
+        return None

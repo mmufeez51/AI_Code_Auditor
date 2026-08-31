@@ -26,7 +26,17 @@ GEMINI_API_KEY=your_api_key_here
 ## Usage
 
 ```bash
+# Scan a single file
 python auditor.py <file_path>
+
+# Scan an entire directory
+python auditor.py <directory_path>
+
+# Specify a different Gemini model
+python auditor.py <target> --model gemini-2.5-flash
+
+# Save the report to a Markdown file
+python auditor.py <target> --output report.md
 ```
 
 See [EXAMPLE_OUTPUT.md](EXAMPLE_OUTPUT.md) for a sample audit report.
